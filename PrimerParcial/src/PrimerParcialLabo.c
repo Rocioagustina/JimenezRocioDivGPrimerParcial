@@ -13,18 +13,32 @@
 #include <string.h>
 #include <ctype.h>
 #include "rJimenez.h"
+#include "empresa.h"
+#include "tipo.h"
+#include "destino.h"
 
-#define MENSAJE_SALIR "Desea salir del programa? s/n \n"
-#define MENSAJE_ERROR_SALIR "Hubo un error y no se pudo cerrar el programa\n"
-#define FIN_DEL_PROCESO "Programa cerrado con exito\n"
+#define TAM_ARRAY_MICRO 5
+#define TAM_ARRAY_EMPRESA 5
+#define TAM_ARRAY_TIPO 5
+#define TAM_ARRAY_DESTINO 5
+
 
 
 
 int main(void) {
 
 	setbuf(stdout, NULL);
-	int opcion;
-	char salir [5];
+	char opcion;
+	eMicro arrayMicro [TAM_ARRAY_MICRO];
+	eEmpresa arrayEmpresa [TAM_ARRAY_EMPRESA];
+	eTipo arrayTipo [TAM_ARRAY_TIPO];
+	eDestino arrayDestino[TAM_ARRAY_DESTINO];
+	int id;
+
+
+	hardcodeoEmpresa (arrayEmpresa);
+	hardcodeoTipo (arrayTipo);
+	hardcodeoDestino (arrayDestino);
 
 
 	do
@@ -34,31 +48,43 @@ int main(void) {
 		printf("3. MODIFICACION\n");
 		printf("4. SALIR\n");
 
-		scanf("%d", &opcion);
+		scanf("%c", &opcion);
 
 
 		switch(opcion)
 		{
-		case 1:
+		case 'a': if(darAltaMicro(arrayMicro, TAM_ARRAY_MICRO, "Ingrese el id de la empresa\n", "Error al ingresar el id de la empresa\n",
+					"El id de la empresa fue ingresado correctamente\n", "No se puede ingresar el micro ya que no hay mas espacio\n", "Ingrese el id del tipo\n",
+					"Error al ingresar el id del tipo\n", "El id del tipo fue ingresado correctamente\n", "Ingrese la capacidad del micro\n",
+					"Error al ingresar la capacidad del micro\n", "La capacidad del micro fue ingresada correctamente\n", "El alta del micro ha sido completada exitosamente\n",
+					id, 50, 1))
+				{
+					id++;
+				}
 			break;
-		case 2:
+		case 'b':
 			break;
-		case 3:
+		case 'c': darBajaMicro(arrayMicro, TAM_ARRAY_MICRO, "Ingrese el id,")
+			/*(eMicro *listaMicro, int tamArray, char mensajeId [TAM_STR], char mensajeErrorId [TAM_STR],
+					char mensajeExitoId [TAM_STR], char mensajeErrorBaja [TAM_STR], char mensajeExitoBaja [TAM_STR],
+					char mensajeErrorIdNoEncontrado [TAM_STR])*/
 			break;
-		case 4: tolower(pedirChar(MENSAJE_SALIR, MENSAJE_ERROR_SALIR, "El dato ingresado es correcto\n", salir));
-				 if (stricmp(salir, "s") == 0)
-				 {
-					 printf("Programa cerrado correctamente\n");
-
-				 } else
-				 {
-					 opcion = 0;
-					 printf("El programa no fue cerrado\n");
-				 }
+		case 'd':
+			break;
+		case 'e':
+			break;
+		case 'f':
+			break;
+		case 'g':
+			break;
+		case 'h':
+			break;
+		case 'i':
 			break;
 		}
 
-	}while(opcion != 4);
+
+		}while(opcion != 'i');
 
 
 	return EXIT_SUCCESS;
