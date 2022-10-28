@@ -217,7 +217,7 @@ int validarInt(char entero [TAM_INT])
 }
 
 
-int buscarLibre(eMicro *listaMicro, int tamArray)
+int buscarLibreMicro(eMicro *listaMicro, int tamArray)
 {
 	int retorno;
 	int i;
@@ -240,7 +240,7 @@ int buscarLibre(eMicro *listaMicro, int tamArray)
 int darAltaMicro(eMicro *listaMicro, int tamArray, char mensajeIdEmpresa [TAM_STR], char mensajeErrorIdEmpresa [TAM_STR],
 		char mensajeExitoIdEmpresa [TAM_STR], char mensajeErrorArray [TAM_STR], char mensajeIdTipo [TAM_STR], char mensajeErrorIdTipo [TAM_STR],
 		char mensajeExitoIdTipo [TAM_STR], char mensajeCapacidad [TAM_STR], char mensajeErrorCapacidad [TAM_STR],
-		char mensajeExitoCapacidad [TAM_STR], char mensajeCargaCompleta [TAM_STR], int id, int maximo, int minimo)
+		char mensajeExitoCapacidad [TAM_STR], char mensajeCargaCompleta [TAM_STR], int id, int maximo, int minimo, eTipo *listaTipo, int tam)
 {
 	int retorno;
 	eMicro aux;
@@ -248,15 +248,17 @@ int darAltaMicro(eMicro *listaMicro, int tamArray, char mensajeIdEmpresa [TAM_ST
 
 	retorno = -1;
 
-	indice = buscarLibre(listaMicro, tamArray);
+	indice = buscarLibreMicro(listaMicro, tamArray);
 
 	if(indice != -1)
 	{
-		if(pedirInt(mensajeIdEmpresa,  mensajeErrorIdEmpresa, mensajeExitoIdEmpresa, aux.idEmpresa) == 0)
+		if(pedirInt(mensajeIdEmpresa,  mensajeErrorIdEmpresa, mensajeExitoIdEmpresa, &aux.idEmpresa) == 0)
 		{
-			if(pedirInt(mensajeIdTipo, mensajeErrorIdTipo, mensajeExitoIdTipo, aux.idTipo) == 0)
+			informarTipos(listaTipo, tam);
+
+			if(pedirInt(mensajeIdTipo, mensajeErrorIdTipo, mensajeExitoIdTipo, &aux.idTipo) == 0)
 			{
-				if(pedirInt(mensajeCapacidad, mensajeErrorCapacidad, mensajeExitoCapacidad, aux.capacidad) == 0)
+				if(pedirInt(mensajeCapacidad, mensajeErrorCapacidad, mensajeExitoCapacidad, &aux.capacidad) == 0)
 				{
 					if(aux.capacidad > minimo && aux.capacidad < maximo)
 					{
@@ -264,6 +266,9 @@ int darAltaMicro(eMicro *listaMicro, int tamArray, char mensajeIdEmpresa [TAM_ST
 						aux.id = id;
 						aux.isEmpty = 0;
 						retorno = 0;
+					} else
+					{
+						printf("Valor invalido, La capacidad es de entre 1 y 50/n");
 					}
 				}
 			}
@@ -297,14 +302,11 @@ int modificarMicro(eMicro *listaMicro, int tamArray, char mensajeId [TAM_STR], c
 		indice = encontrarMicroPorId(listaMicro, tamArray, idBorrar);
 		if(indice != -1)
 		{
-			 printf("Ingrese una opcion\n");
-			 printf("Ingrese el nuevo tipo: \n");
-			 printf("Ingrese la nueva capacidad: \n");
-			 pedirInt("Ingrese el dato que desea modificar\n", "Error en la modificacion\n", "Opcion ingresada correctamente\n", &opcion);
+			 pedirInt(mensajeModificar, mensajeErrorModificar, mensajeExitoModificar, &opcion);
 
 			 switch(opcion)
 			 {
-			 case 1: if(modificarTipo (mensajeModificarIdTipo, mensajeErrorModificarIdTipo, mensajeExitoModificarIdTipo, &listaMicro[indice]) != -1)
+			 case 1: if(modificarTipo (mensajeModificarIdTipo, mensajeErrorModificarIdTipo, mensajeExitoModificarIdTipo, &listaMicro[indice], listaTipo) != -1)
 					 {
 						retorno = 0;
 					 }
@@ -325,8 +327,7 @@ int modificarMicro(eMicro *listaMicro, int tamArray, char mensajeId [TAM_STR], c
 	return retorno;
 }
 
-int modificarTipo(char mensajeModificar [TAM_STR], char mensajeErrorModificar [TAM_STR], char mensajeExitoModificar [TAM_STR], eMicro *listaMicro,
-		eTipo *listaTipo, int minimo, int maximo)
+int modificarTipo(char mensajeModificar [TAM_STR], char mensajeErrorModificar [TAM_STR], char mensajeExitoModificar [TAM_STR], eMicro *listaMicro, eTipo *listaTipo)
 {
 	int retorno;
 	int tipoModificado;
@@ -342,8 +343,7 @@ int modificarTipo(char mensajeModificar [TAM_STR], char mensajeErrorModificar [T
 	return retorno;
 }
 
-int modificarCapacidad(char mensajeModificar [TAM_STR], char mensajeErrorModificar [TAM_STR], char mensajeExitoModificar [TAM_STR], eMicro *listaMicro,
-			int minimo, int maximo)
+int modificarCapacidad(char mensajeModificar [TAM_STR], char mensajeErrorModificar [TAM_STR], char mensajeExitoModificar [TAM_STR], eMicro *listaMicro)
 {
 	int retorno;
 	int capacidadModificada;
@@ -371,7 +371,7 @@ int darBajaMicro (eMicro *listaMicro, int tamArray, char mensajeId [TAM_STR], ch
 
 	informarMicros(listaMicro);
 
-	 if(pedirInt(mensajeId, mensajeErrorId, mensajeExitoId, &idBorrar, 0, tamArray) == 0)
+	 if(pedirInt(mensajeId, mensajeErrorId, mensajeExitoId, &idBorrar) == 0)
 	 {
 		 indice = encontrarMicroPorId(listaMicro, tamArray, idBorrar);
 		 if(indice != -1)
@@ -391,4 +391,7 @@ int darBajaMicro (eMicro *listaMicro, int tamArray, char mensajeId [TAM_STR], ch
 
 	return retorno;
 }
+
+
+
 

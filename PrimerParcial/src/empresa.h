@@ -14,6 +14,10 @@ typedef struct{
 	int isEmpty;
 }eEmpresa;
 
-void hardcodeoEmpresa (eEmpresa listaEmpresa [5]);
+void hardcodeoEmpresa (eEmpresa *listaEmpresa);
+
+void informarEmpresas(eEmpresa *listaEmpresa, int tam);
+
+void mostrarUnaEmpresa(eEmpresa listaEmpresa);
 
 #endif /* EMPRESA_H_ */

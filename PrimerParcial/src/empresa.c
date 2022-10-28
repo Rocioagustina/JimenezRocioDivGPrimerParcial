@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include "empresa.h"
 
-void hardcodeoEmpresa (eEmpresa listaEmpresa [5])
+void hardcodeoEmpresa (eEmpresa *listaEmpresa)
 {
 	listaEmpresa [0].id = 1000;
 	strcpy(listaEmpresa->descripcion, "Plusmar");
@@ -25,3 +25,26 @@ void hardcodeoEmpresa (eEmpresa listaEmpresa [5])
 	strcpy(listaEmpresa->descripcion, "El Rapido");
 }
 
+void informarEmpresas(eEmpresa *listaEmpresa, int tam)
+{
+	int i;
+
+	printf("Las empresas son:\n");
+
+	for(i = 0; i < tam; i++)
+	{
+		if(listaEmpresa[i].isEmpty == 0)
+		{
+			mostrarUnaEmpresa(listaEmpresa[i]);
+		}
+
+	}
+
+}
+
+void mostrarUnaEmpresa(eEmpresa listaEmpresa)
+{
+
+	printf("%d\n\n", listaEmpresa.id);
+	printf(listaEmpresa.descripcion);
+}

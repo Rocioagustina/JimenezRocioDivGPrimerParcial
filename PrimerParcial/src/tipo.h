@@ -14,6 +14,11 @@ typedef struct{
 	int isEmpty;
 }eTipo;
 
-void hardcodeoTipo (eTipo listaTipo [5]);
+void hardcodeoTipo (eTipo *listaTipo);
+
+void informarTipos(eTipo *listaTipo, int tam);
+
+void mostrarUnTipo(eTipo listaTipo);
+
 
 #endif /* TIPO_H_ */

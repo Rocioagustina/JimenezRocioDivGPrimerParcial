@@ -18,12 +18,16 @@ typedef struct{
 }eMicro;
 
 
-void informarMicros(eMicro listaMicro [5]);
+void informarMicros(eMicro *listaMicro);
 
 int encontrarMicroPorId(eMicro *listaMicro, int tamArray, int id);
 
 void mostrarUnMicro(eMicro listaMicro);
 
 void eliminarMicro(eMicro *listaMicro);
+
+void ordenarPorEmpresa (eMicro *listaMicro, int tamArray);
+
+void intercambiarMicros (eMicro *microUno, eMicro *microDos);
 
 #endif /* MICRO_H_ */
